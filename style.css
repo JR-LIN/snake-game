@@ -40,7 +40,7 @@ h1 {
 }
 
 .randomCell {
-  background: url(./randcellpics/\(1\).svg);
+  background: url(apple.svg);
   background-size:cover;
 }
 .snake-color {
