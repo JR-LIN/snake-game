@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="platform">
+    <div class="playground-container" id = 'playground-container'></div>
+    <div class="info-container">
+      <p>Score:<span id="score-count"></span></h1></p>
+      <div class="button-container" id = 'resume-container'>
+        <button class="button" id="resume">resume</button>
+      </div>
+      <div class="button-container" id = 'pause-container'>
+        <button class ="button" id = 'pause'>pause</button>
+      </div>
+      <div class="button-container" id = 'restart-container'>
+        <button class ="button" id="restart">restart</button>
+      </div>
+      <h1>speed</h1>
+      <form class="speed-container" id="speed-container">
+        <div class="wrapper">
+          <input type="radio" name = 'selector' id = 'slow'>
+          <br/>
+          <label for="slow">slow</label>
+        </div>
+        <div class="wrapper">
+          <input type="radio" name = 'selector' id ='medium'>  
+          <br/>
+          <label for="medium">medium</label>
+        </div>
+        <div class="wrapper">
+          <input type="radio" name = 'selector' id ='fast'>  
+          <br/>
+          <label for="fast">fast</label>
+        </div>
+      </form>     
+    </div>   
+  </div>
+  <!-- script -->
+  <script src="./script.js"></script>
+</body>
+</html>

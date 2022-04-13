@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.1rem;
+}
+
+input {
+  width: 2em;
+  height: 2em;
+}
+
+h1 {
+  margin-bottom: 0.5em;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+
+.platform {
+  display: flex;
+}
+
+.playground-container {
+  height: 50rem;
+  width: 50rem;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  background-color: #dadef7;
+}
+
+.outerCell {
+  background-color: white;
+}
+
+.randomCell {
+  background: url(./randcellpics/\(1\).svg);
+  background-size:cover;
+}
+.snake-color {
+  background-color: #EA7166;
+}
+
+.info-container {
+  position:relative;
+  margin-top: 40px;
+  height: 720px;
+  width:30rem;
+  text-align: center;
+  border-radius: 2rem;
+  background-color: whitesmoke;
+}
+
+p {
+  margin-top: 40px;
+  font-size: 4rem;
+}
+
+.button-container {
+  position: relative;
+  margin: 2rem; 
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.button {
+  display: block;
+  width: 15rem;
+  font-size: 2.5rem;
+  margin: auto;
+  padding: 1.5rem;
+  border-radius: 10rem;
+  text-shadow: black;
+  cursor: pointer;
+  outline: none;
+  background-color:lightsalmon;
+  border: none;
+  box-shadow: 2px 2px 20px 10px rgba(0,0,0,0.2);
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.1rem;
+}
+.button:hover {
+  filter: brightness(95%);
+}
+.button:active {
+  transform: scale(0.98);
+}
+.button:disabled {
+  cursor: default;
+  filter: brightness(30%);
+}
+
+.speed-container {
+  display: flex;
+  justify-content:space-around;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+#score-count {
+  padding-left: 1.5rem;
+}
+
+
