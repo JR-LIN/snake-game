@@ -148,6 +148,8 @@ function moveDirection (num) {
     if (outerPlaygroundIdNum.includes(targetCellIdNum)) {
       clearInterval(interval);
       alert('game over, Snake hits wall');
+      window.removeEventListener('keydown', PressDownMove);
+      window.removeEventListener('keyup', autoMove);
     } 
     else {  
       snake[0].classList.remove('snake-color');
@@ -159,6 +161,8 @@ function moveDirection (num) {
       if(snakeHitSelfArray.indexOf(snake[snake.length-1]) !==-1) {
         clearInterval(interval);
         alert('game over, Snake eats itself');
+        window.removeEventListener('keydown', PressDownMove);
+        window.removeEventListener('keyup', autoMove);
       };
       //if snake not yet eat anything, its length is 1, has to check this exception
       if (snake.length === 1) {
