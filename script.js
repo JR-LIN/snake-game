@@ -35,7 +35,7 @@ function setPlayground() {
 }
 setPlayground();
 
-//main 
+//main global variables
 const restartBtn = document.getElementById('restart');
 const pauseBtn = document.getElementById('pause');
 const resumeBtn = document.getElementById('resume');
@@ -47,35 +47,40 @@ score.textContent = 0;
 let scoreNum = 0;
 mediumbtn.checked = true;
 
-//helper function to delete after development: create a long snake for testing
 const snake = [];
-function createLongSnake() {
-  for (let i = widthHeight+2; i<=widthHeight+10; i++) {
-    let cell = document.getElementById(i.toString());
-    snake.push(cell);
-    snake[snake.length-1].classList.add('snake-color');
-  }
+//helper function to delete after development: create a long snake for testing
+
+// function createLongSnake() {
+//   for (let i = widthHeight+2; i<=widthHeight+2; i++) {
+//     let cell = document.getElementById(i.toString());
+//     snake.push(cell);
+//     snake[snake.length-1].classList.add('snake-color');
+//   }
+//   snake[snake.length-1].classList.add('snake-head-down');
+// }
+// createLongSnake();
+function createSnake() {
+  let cell = document.getElementById('211');
+  snake.push(cell);
+  snake[snake.length-1].classList.add('snake-head-down');
 }
-createLongSnake();
+createSnake();
 
-// global variables
-// uncomment: let currentHeadCell = document.getElementById('1');
-// Uncomment: const snake = [currentHeadCell];
-let targetCell = document.getElementById('1');
-// Uncomment: snake[snake.length-1].classList.add('snake-color');
-let randomCell = document.getElementById('100')
+let randomCell = null;
 
-//why interval has to be global
+//TODO why interval has to be global
 let interval = null;
+
+
 let moveSpeed = 600;
-let rightMoveStep = 1;
-let leftMoveStep = -1;
+const rightMoveStep = 1;
+const leftMoveStep = -1;
 let upMoveStep = -widthHeight;
 let downMoveStep = widthHeight;
 
 let startMove = null;
 
-//setup direction status
+//setup direction status monitor
 const direction = {
   up: false,
   right: false,
@@ -87,11 +92,13 @@ const pauseResume = {
   pause: false
 }
 
+//to update score
 function scoreCount () {
   scoreNum++;
   score.textContent = scoreNum;
 }
 
+// to generate a random target food cell for snake, avoid generated inside snake
 function getRandomCell() {
   //TODO when create a variable be careful with the scope it should be, should not expose too much
   const randomCellAreaNum = [];
@@ -102,7 +109,6 @@ function getRandomCell() {
   })
 
   //find the array of cells not occupied by snake cells in  innerPlayground: exclude the same cells snake has in the innerPlayground array
-  
   for (let idNum of innerPlaygroundIdNum) {
     if (snakeIdNum.indexOf(idNum) === -1) {
       randomCellAreaNum.push(idNum);
@@ -114,7 +120,7 @@ function getRandomCell() {
   const positionIdStr = randomCellAreaNum[positionIndex].toString();
   const randCell = document.getElementById(positionIdStr);
   randCell.classList.add('randomCell');
-  //there are 125 svg icons in the food folder
+  //there are 125 svg icons in the food folder random select one as snake's target food
   const randFoodId = Math.floor(Math.random()*125)
   const randFoodUrl = `url(food/${randFoodId}.svg)`;
   randCell.style.setProperty('--background-url', randFoodUrl);
@@ -123,7 +129,7 @@ function getRandomCell() {
 
 getRandomCell();
 
-// refactor to one function
+//this is the major movement function, the keypress down and keypress up function both use this function to make the 'movement'
 //TODO closure moveTrigger function with its outer scope environment is a 'closure' 
 function moveDirection (num) {
   function moveTrigger() {  
@@ -141,7 +147,7 @@ function moveDirection (num) {
     //check if hit wall, the wall is the outer cells around the inner-playground
     if (outerPlaygroundIdNum.includes(targetCellIdNum)) {
       clearInterval(interval);
-      alert('game over');
+      alert('game over, Snake hits wall');
     } 
     else {  
       snake[0].classList.remove('snake-color');
@@ -152,25 +158,42 @@ function moveDirection (num) {
       //if this 'no-head' array contains any value that is equal to the targetCell which is now the snake's head (snake.length-1), it means snake's head is in its body.
       if(snakeHitSelfArray.indexOf(snake[snake.length-1]) !==-1) {
         clearInterval(interval);
-        alert('game over');
+        alert('game over, Snake eats itself');
       };
-
-      //change the cell behind snake'head' to snake-color, and change the new head to the snake head svg corresponding the current snake moving direction
-      snake[snake.length-2].className = 'snake-color';
-      if (direction.right) {
-        snake[snake.length-1].classList.add('snake-head-right');
+      //if snake not yet eat anything, its length is 1, has to check this exception
+      if (snake.length === 1) {
+        tailId.className = 'cell';
+        if (direction.right) {
+          snake[snake.length-1].classList.add('snake-head-right');
+        }
+        if (direction.left) {
+          snake[snake.length-1].classList.add('snake-head-left');
+        }
+        if (direction.up) {
+          snake[snake.length-1].classList.add('snake-head-up');
+        }
+        if (direction.down) {
+          snake[snake.length-1].classList.add('snake-head-down');
+        }
+      } 
+      else {
+        //change the cell behind snake'head' to snake-color, and change the new head to the snake head svg corresponding the current snake moving direction
+        snake[snake.length-2].className = 'snake-color';
+        
+        if (direction.right) {
+          snake[snake.length-1].classList.add('snake-head-right');
+        }
+        if (direction.left) {
+          snake[snake.length-1].classList.add('snake-head-left');
+        }
+        if (direction.up) {
+          snake[snake.length-1].classList.add('snake-head-up');
+        }
+        if (direction.down) {
+          snake[snake.length-1].classList.add('snake-head-down');
+        }
       }
-      if (direction.left) {
-        snake[snake.length-1].classList.add('snake-head-left');
-      }
-      if (direction.up) {
-        snake[snake.length-1].classList.add('snake-head-up');
-      }
-      if (direction.down) {
-        snake[snake.length-1].classList.add('snake-head-down');
-      }
-
-      //check if snake eats a 'randomcell'
+      //check if snake eats a 'randomcell food'
       if (snake[snake.length-1] === randomCell) {
         randomCell.classList.remove('randomCell');
         snake.unshift(tailId);
@@ -185,6 +208,7 @@ function moveDirection (num) {
 
 //arrow keyup event function
 function autoMove (event) {
+  event.preventDefault();
   //TODO event loop of web api setInterval
   if ((event.key === 'ArrowRight') && (!direction.left)) {
     clearInterval(interval);
@@ -206,69 +230,55 @@ function autoMove (event) {
 
 //arrow keydown event function
 function PressDownMove(event) {
-  if (event.key === 'ArrowDown') {
-    if (direction.up === false) {
+  event.preventDefault();
+  if ((event.key === 'ArrowDown') && (!direction.up)) {
       direction.down = true;
       clearInterval(interval);   
-      if (direction.up === false) {
-        direction.up = false;
-        direction.right = false;
-        direction.left =false;
-        startMove = moveDirection(downMoveStep);
-        startMove();
-      }
-    }
+      direction.up = false;
+      direction.right = false;
+      direction.left =false;
+      startMove = moveDirection(downMoveStep);
+      startMove();
   }
-  if (event.key === 'ArrowUp') {
-    if (direction.down === false) {
+  if ((event.key === 'ArrowUp') && (!direction.down)) {
       direction.up = true;
       clearInterval(interval);  
-      if (direction.down === false) {
-        direction.down = false;
-        direction.right = false;
-        direction.left =false;
-        startMove = moveDirection(upMoveStep);
-        startMove();
-      }
-    }
+      direction.down = false;
+      direction.right = false;
+      direction.left =false;
+      startMove = moveDirection(upMoveStep);
+      startMove();
   }
-  if (event.key === 'ArrowRight') {
-    if(direction.left === false) {
+  if ((event.key === 'ArrowRight') && (!direction.left)) {
       direction.right = true;
       clearInterval(interval);
-      if (direction.left === false) {
-        direction.down = false;
-        direction.up = false;
-        direction.left =false;
-        startMove = moveDirection(rightMoveStep);
-        startMove();
-      }
-    }
+      direction.down = false;
+      direction.up = false;
+      direction.left =false;
+      startMove = moveDirection(rightMoveStep);
+      startMove();
   }
-  if (event.key === 'ArrowLeft') {
-    if(direction.right === false) {
+  if ((event.key === 'ArrowLeft') && (!direction.right)) {
       direction.left =true;
       clearInterval(interval);
-      if (direction.right === false) {
-        direction.down = false;
-        direction.up = false;
-        direction.right = false;
-        startMove = moveDirection(leftMoveStep);
-        startMove();
-      }
-    }
+      direction.down = false;
+      direction.up = false;
+      direction.right = false;
+      startMove = moveDirection(leftMoveStep);
+      startMove();
   }
 }
 
+//reload page: restart button function
 function reload() {
   window.location.reload();
 }
-
+//pause button function
 function pauseGame() {
   clearInterval(interval);
   pauseResume.pause = true;
 }
-
+//resume button function
 function resumeGame() {
   // if to prevent click several times resume button adding more startMove intervals
   if (pauseResume.pause) {
@@ -276,7 +286,7 @@ function resumeGame() {
     pauseResume.pause = false;
   }
 }
-
+//input radio speed function
 function changeSpeed() {
   if (slowbtn.checked) {
     moveSpeed = 1000;
