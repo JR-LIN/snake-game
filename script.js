@@ -42,12 +42,13 @@ const resumeBtn = document.getElementById('resume');
 const slowbtn = document.getElementById('slow');
 const mediumbtn = document.getElementById('medium');
 const fastbtn = document.getElementById('fast');
+const score = document.getElementById('score-count');
+score.textContent = 0;
+let scoreNum = 0;
 mediumbtn.checked = true;
 
 //helper function to delete after development: create a long snake for testing
 const snake = [];
-
-// const randomCellAreaNum = [];
 function createLongSnake() {
   for (let i = widthHeight+2; i<=widthHeight+10; i++) {
     let cell = document.getElementById(i.toString());
@@ -83,14 +84,8 @@ const direction = {
 };
 
 const pauseResume = {
-  pause: false,
-  resume: true
+  pause: false
 }
-
-const score = document.getElementById('score-count');
-
-score.textContent = 0;
-let scoreNum = 0;
 
 function scoreCount () {
   scoreNum++;
@@ -98,7 +93,6 @@ function scoreCount () {
 }
 
 function getRandomCell() {
-  console.log('snake size: ' + snake.length);
   //TODO when create a variable be careful with the scope it should be, should not expose too much
   const randomCellAreaNum = [];
   const snakeIdNum = [];
@@ -120,6 +114,10 @@ function getRandomCell() {
   const positionIdStr = randomCellAreaNum[positionIndex].toString();
   const randCell = document.getElementById(positionIdStr);
   randCell.classList.add('randomCell');
+  //there are 125 svg icons in the food folder
+  const randFoodId = Math.floor(Math.random()*125)
+  const randFoodUrl = `url(food/${randFoodId}.svg)`;
+  randCell.style.setProperty('--background-url', randFoodUrl);
   randomCell = randCell;
 }
 
@@ -149,7 +147,7 @@ function moveDirection (num) {
       snake[0].classList.remove('snake-color');
       snake.shift();
       snake.push(targetCell);
-      //get the array where snake will hit itself, index 0 is tail, end index (snake.length-1) in slice means it will slice until but not include the last value in snake array (last value is snake head, which is also the targetCell variable, as the snake already .push the targetCell) 
+      //get the array where snake will hit itself, index 0 is tail, end index (snake.length-1) in .slice() means it will slice until but not include the last value in snake array (last value is snake head, which is also the targetCell variable, as the snake already .push() the targetCell) 
       const snakeHitSelfArray = snake.slice(0, snake.length-1);
       //if this 'no-head' array contains any value that is equal to the targetCell which is now the snake's head (snake.length-1), it means snake's head is in its body.
       if(snakeHitSelfArray.indexOf(snake[snake.length-1]) !==-1) {
@@ -157,9 +155,20 @@ function moveDirection (num) {
         alert('game over');
       };
 
-      
-      snake[snake.length-1].classList.add('snake-color');
-      
+      //change the cell behind snake'head' to snake-color, and change the new head to the snake head svg corresponding the current snake moving direction
+      snake[snake.length-2].className = 'snake-color';
+      if (direction.right) {
+        snake[snake.length-1].classList.add('snake-head-right');
+      }
+      if (direction.left) {
+        snake[snake.length-1].classList.add('snake-head-left');
+      }
+      if (direction.up) {
+        snake[snake.length-1].classList.add('snake-head-up');
+      }
+      if (direction.down) {
+        snake[snake.length-1].classList.add('snake-head-down');
+      }
 
       //check if snake eats a 'randomcell'
       if (snake[snake.length-1] === randomCell) {
@@ -173,10 +182,6 @@ function moveDirection (num) {
   };
   return moveTrigger;
 };
-
-
-
-
 
 //arrow keyup event function
 function autoMove (event) {
@@ -282,7 +287,6 @@ function changeSpeed() {
   if (fastbtn.checked) {
     moveSpeed = 100;
   }
-  console.log(moveSpeed)
 }
 
 window.addEventListener('keydown', PressDownMove);

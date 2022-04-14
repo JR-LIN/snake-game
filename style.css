@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 
+:root {
+  --background-url: url(food/13.svg);
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -32,7 +36,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
-  background-color: #dadef7;
+  background-color: rgba(209, 216, 255, 0.8);
 }
 
 .outerCell {
@@ -40,11 +44,30 @@ h1 {
 }
 
 .randomCell {
-  background: url(apple.svg);
+  background: var(--background-url);
   background-size:cover;
 }
+
 .snake-color {
-  background-color: #EA7166;
+  background: url(snake-color.svg);
+  background-size: cover;
+}
+.snake-head-left {
+  background: url(snake-head-left.svg);
+  background-size: cover;
+}
+
+.snake-head-right {
+  background: url(snake-head-right.svg);
+  background-size: cover;
+}
+.snake-head-up {
+  background: url(snake-head-up.svg);
+  background-size: cover;
+}
+.snake-head-down {
+  background: url(snake-head-down.svg);
+  background-size: cover;
 }
 
 .info-container {
@@ -68,8 +91,6 @@ p {
   display: flex;
   justify-content: center;
 }
-
-
 
 .button {
   display: block;
