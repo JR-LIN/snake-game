@@ -8,41 +8,54 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="page-head" id="page-head">snake game</header>
-  <div class="platform">
-    <div class="playground-container" id = 'playground-container'></div>
-    <div class="info-container">
-      <p>Score:<span id="score-count"></span></h1></p>
-      <div class="button-container" id = 'resume-container'>
-        <button class="button" id="resume">resume</button>
+  <div class="main" id="main">
+    <header class="page-head" id="page-head">snake game</header>
+    <div class="platform">
+      <div class="rank-cotainer" id="rank-container">
+        rank
       </div>
-      <div class="button-container" id = 'pause-container'>
-        <button class ="button" id = 'pause'>pause</button>
-      </div>
-      <div class="button-container" id = 'restart-container'>
-        <button class ="button" id="restart">restart</button>
-      </div>
-      <h1>speed</h1>
-      <form class="speed-container" id="speed-container">
-        <div class="wrapper">
-          <input type="radio" name = 'selector' id = 'slow'>
-          <br/>
-          <label for="slow">slow</label>
+      <div class="playground-container" id = 'playground-container'></div>
+      <div class="info-container">
+        <p id="score">Score:<span id="score-count"></span></h1></p>
+        <div class="button-container" id = 'resume-container'>
+          <button class="button" id="resume">resume</button>
         </div>
-        <div class="wrapper">
-          <input type="radio" name = 'selector' id ='medium'>  
-          <br/>
-          <label for="medium">medium</label>
+        <div class="button-container" id = 'pause-container'>
+          <button class ="button" id = 'pause'>pause</button>
         </div>
-        <div class="wrapper">
-          <input type="radio" name = 'selector' id ='fast'>  
-          <br/>
-          <label for="fast">fast</label>
+        <div class="button-container" id = 'restart-container'>
+          <button class ="button" id="restart">restart</button>
         </div>
-      </form>     
-    </div>   
+        <h1>speed</h1>
+        <form class="speed-container" id="speed-container">
+          <div class="wrapper">
+            <input type="radio" name = 'selector' id = 'slow'>
+            <br/>
+            <label for="slow">slow</label>
+          </div>
+          <div class="wrapper">
+            <input type="radio" name = 'selector' id ='medium'>  
+            <br/>
+            <label for="medium">medium</label>
+          </div>
+          <div class="wrapper">
+            <input type="radio" name = 'selector' id ='fast'>  
+            <br/>
+            <label for="fast">fast</label>
+          </div>
+        </form>     
+      </div> 
+        
+    </div>
   </div>
-  <!-- script -->
-  <script src="script.js"></script>
+  <div class="other-info" id="other-info" hidden>
+    <p id = 'game-over'>game over</p>
+    <br/>
+    <p class='final-score'>your score is <span id="your-score"></span></p>
+    <br/>
+    <button class="reset" id="reset">reset</button>
+  </div>
+    <!-- script -->
+    <script src="script.js"></script>
 </body>
 </html>

@@ -43,7 +43,10 @@ const slowbtn = document.getElementById('slow');
 const mediumbtn = document.getElementById('medium');
 const fastbtn = document.getElementById('fast');
 const score = document.getElementById('score-count');
-score.textContent = 0;
+const gameOverLayer = document.getElementById('other-info');
+const finalScore = document.getElementById('your-score');
+const resetBtn = document.getElementById('reset');
+score.textContent = '0';
 let scoreNum = 0;
 mediumbtn.checked = true;
 
@@ -146,10 +149,11 @@ function moveDirection (num) {
    
     //check if hit wall, the wall is the outer cells around the inner-playground
     if (outerPlaygroundIdNum.includes(targetCellIdNum)) {
-      clearInterval(interval);
-      alert('game over, Snake hits wall');
+      // clearInterval(interval);
+      // alert('game over, Snake hits wall');
       window.removeEventListener('keydown', PressDownMove);
       window.removeEventListener('keyup', autoMove);
+      gameover();
     } 
     else {  
       snake[0].classList.remove('snake-color');
@@ -159,10 +163,11 @@ function moveDirection (num) {
       const snakeHitSelfArray = snake.slice(0, snake.length-1);
       //if this 'no-head' array contains any value that is equal to the targetCell which is now the snake's head (snake.length-1), it means snake's head is in its body.
       if(snakeHitSelfArray.indexOf(snake[snake.length-1]) !==-1) {
-        clearInterval(interval);
-        alert('game over, Snake eats itself');
+        // clearInterval(interval);
+        // alert('game over, Snake eats itself');
         window.removeEventListener('keydown', PressDownMove);
         window.removeEventListener('keyup', autoMove);
+        gameover();
       };
       //if snake not yet eat anything, its length is 1, has to check this exception
       if (snake.length === 1) {
@@ -205,6 +210,18 @@ function moveDirection (num) {
         scoreCount();
         getRandomCell();     
       };
+      //when achieve a score accelerate;
+      
+      if(score.textContent === '10') {
+        clearInterval(interval);
+        moveSpeed = 250;
+        interval = setInterval(startMove, moveSpeed);
+      }
+      if(score.textContent === '20') {
+        clearInterval(interval);
+        moveSpeed = 100;
+        interval = setInterval(startMove, moveSpeed);
+      }
     };
   };
   return moveTrigger;
@@ -231,6 +248,7 @@ function autoMove (event) {
     interval = setInterval(startMove, moveSpeed);
   }
 }
+
 
 //arrow keydown event function
 function PressDownMove(event) {
@@ -277,6 +295,7 @@ function PressDownMove(event) {
 function reload() {
   window.location.reload();
 }
+
 //pause button function
 function pauseGame() {
   clearInterval(interval);
@@ -296,12 +315,21 @@ function changeSpeed() {
     moveSpeed = 1000;
   }
   if (mediumbtn.checked) {
-    moveSpeed = 400;
+    moveSpeed = 500;
   }
   if (fastbtn.checked) {
     moveSpeed = 100;
   }
+  clearInterval(interval);
+  interval = setInterval(startMove, moveSpeed);
 }
+
+function gameover() {
+  clearInterval(interval);
+  finalScore.textContent = score.textContent;
+  gameOverLayer.hidden = false;
+}
+
 
 window.addEventListener('keydown', PressDownMove);
 window.addEventListener('keyup', autoMove);
@@ -311,8 +339,81 @@ resumeBtn.addEventListener('click', resumeGame);
 slowbtn.addEventListener('change',changeSpeed);
 mediumbtn.addEventListener('change', changeSpeed);
 fastbtn.addEventListener('change', changeSpeed);
+resetBtn.addEventListener('click', reload);
+
+//record score for different users
+
+const userName = '';
+const nameValue = '';
+
+
+const scoreValue = '';
+
+
+
+const appkeyNameArray = ["f8l1xbm6","yi3lt4dj","39t359no","lf3lcjbv","oqzjyd32","i60cj4d2","flrw85ff"];
+const nameArray = ['Jam', 'sunny', 'star','jeff','tom','Jenny', 'fate'];
+
+const appKeyScoreArray = ["xux3jps6","sj67pazk","jyrnnxpy","sr2quwuy","ddq4ha5r","3u2pkdgx","xiukwrza"];
+const scoreArray = [4,1,5,2,6,7,9];
+
+
+// const nameScorePairAppKeyArray = [
+//   {"f8l1xbm6": 'tom', "xux3jps6": 6},
+//   {"yi3lt4dj": 'jerry',"sj67pazk": 7},
+//   {"39t359no": 'kate', "jyrnnxpy": 12},
+//   {"lf3lcjbv": '', "sr2quwuy": ''},
+//   {"oqzjyd32": '', "ddq4ha5r": ''},
+//   {"i60cj4d2": '', "3u2pkdgx": ''},
+//   {"flrw85ff": '', "xiukwrza": ''},
+// ]
+
+// console.log(nameScorePairAppKeyArray[0][0])
+// console.log(nameScorePairAppKeyArray[0][1])
+const storedNameArray =[];
+const storedScoreArray =[];
+
+// async function storeScore () {
+//   const appKeyUrl = 'https://keyvalue.immanuel.co/api/KeyVal/GetAppKey';
+//   try {
+//     for (let i=0; i<7; i++) {
+//     const response = await fetch(appKeyUrl);
+//     const appKeyData = await response.json();
+//     appkeyNameArray.push(appKeyData);
+//     }
+//   } catch(error) {
+//     console.log(error);
+//   }
+// }
+// storeScore();
+
+
+
+// async function updateName () {
+//   const updateKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${appkeyNameArray}/${userName}/${nameValue}`;
+//   try {   
+//   await fetch(updateKeyValueUrl, {method: 'POST'})
+//   } catch (error) {
+//     console.log(error);
+//   };
+// };
 
 
 
 
+// async function getName () {
+//   try {
+//     for (let i=0; i<7;i++) {
+//       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${appkeyNameArray[i]}/${userName}`;
+//       const keyValueResponse = await fetch (getKeyValueUrl);
+//       const keyValueResponseData = await keyValueResponse.json();
+//       storedNameArray.push(keyValueResponseData);
+//       console.log(keyValueResponseData);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+// getScore();
+// console.log(storedScoreArray);
 
