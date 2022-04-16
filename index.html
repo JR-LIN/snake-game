@@ -12,7 +12,13 @@
     <header class="page-head" id="page-head">snake game</header>
     <div class="platform">
       <div class="rank-cotainer" id="rank-container">
-        rank
+        <h2>rank</h2>
+        <button class="test" id="test">test</button>
+        <ol class = 'rank-list'>
+          <li class='rank-item' id="rank1"></li>
+          <li class='rank-item' id="rank2"></li>
+          <li class='rank-item' id="rank3"></li>
+        </ol>
       </div>
       <div class="playground-container" id = 'playground-container'></div>
       <div class="info-container">
@@ -54,6 +60,13 @@
     <p class='final-score'>your score is <span id="your-score"></span></p>
     <br/>
     <button class="reset" id="reset">reset</button>
+    <div class="input-container" id="input-container">
+      <form>
+        <input type="text" class="input-text" id="input-text" name="input-text">
+        <br/>
+        <label for="input-text">input your name</label>
+      </form>
+    </div>
   </div>
     <!-- script -->
     <script src="script.js"></script>

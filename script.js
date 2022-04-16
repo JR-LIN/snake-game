@@ -74,7 +74,6 @@ let randomCell = null;
 //TODO why interval has to be global
 let interval = null;
 
-
 let moveSpeed = 600;
 const rightMoveStep = 1;
 const leftMoveStep = -1;
@@ -330,7 +329,6 @@ function gameover() {
   gameOverLayer.hidden = false;
 }
 
-
 window.addEventListener('keydown', PressDownMove);
 window.addEventListener('keyup', autoMove);
 restartBtn.addEventListener('click', reload);
@@ -343,77 +341,146 @@ resetBtn.addEventListener('click', reload);
 
 //record score for different users
 
-const userName = '';
-const nameValue = '';
+const testBtn = document.getElementById('test');
+testBtn.addEventListener('click', test);
+// const appkeyArray1 = ["f8l1xbm6","yi3lt4dj","39t359no","lf3lcjbv","oqzjyd32","i60cj4d2","flrw85ff"];
+// const appKeyArray2 = ["xux3jps6","sj67pazk","jyrnnxpy","sr2quwuy","ddq4ha5r","3u2pkdgx","xiukwrza"];
+
+const rank1 = document.getElementById('rank1');
+const rank2 = document.getElementById('rank2');
+const rank3 = document.getElementById('rank3');
+
+const storedNameArray = [];
+const storedScoreArray = [];
+
+function test () {
+  getPlayerInfoArray();
+  console.log(orderedPlayerInfo);
+  presentRankList();
+}
+
+//after get userName and userScore arrays, combine items into object and into one array
+const playerInfo = [];
+let orderedPlayerInfo = [];
+function getPlayerInfoArray () {
+  for (let i=0; i<storedNameArray.length;i++) {
+    const record = {};
+    record.userName = storedNameArray[i];
+    record.userScore = storedScoreArray[i];
+    playerInfo.push(record);
+  } 
+  orderedPlayerInfo = playerInfo.sort(function scoreHightToLow (a,b) {
+    return b.userScore - a.userScore;
+  })
+}
+
+function presentRankList() {
+  rank1.textContent = `${orderedPlayerInfo[0]['userName']}: ${orderedPlayerInfo[0]['userScore']}`;
+  rank2.textContent = `${orderedPlayerInfo[1]['userName']}: ${orderedPlayerInfo[1]['userScore']}`;
+  rank3.textContent = `${orderedPlayerInfo[2]['userName']}: ${orderedPlayerInfo[2]['userScore']}`;
+}
+
+async function getNameArray () {
+  try {
+    for (let i=0; i<playerCount;i++) {
+      let playerName = 'userName'+`${i}`;
+      const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerName}`;
+      const nameValueResponse = await fetch (getKeyValueUrl);
+      const nameValueResponseData = await nameValueResponse.json();
+      storedNameArray.push(nameValueResponseData);
+      // console.log(storedNameArray);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getScoreArray () {
+  try {
+    for (let i=0; i<playerCount;i++) {
+      let playerScore = 'userScore'+`${i}`;
+      const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerScore}`;
+      const scoreValueResponse = await fetch (getKeyValueUrl);
+      const scoreValueResponseData = await scoreValueResponse.json();
+      storedScoreArray.push(scoreValueResponseData);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
-const scoreValue = '';
+function getPlayerInfoArray () {
+  for (let i=0; i<storedNameArray.length;i++) {
+    const record = {};
+    record.userName = storedNameArray[i];
+    record.userScore = storedScoreArray[i];
+    playerInfo.push(record);
+  } 
+  orderedPlayerInfo = playerInfo.sort(function scoreHightToLow (a,b) {
+    return b.userScore - a.userScore;
+  })
+}
+
+//onload, restart, reset call this to get player record from key-value api and show on the rank board
+async function showRank() {
+  try {
+    await getNameArray();
+    await getScoreArray();
+    getPlayerInfoArray();
+    presentRankList();
+  } catch (error) {
+    console.log(error);
+  }
+}
+// showRank();
+
+let playerCount = 3;
+async function getPlayerCount () {
+  try {
+      const getKeyValueUrl = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/f8l1xbm6/playerCount";
+      const keyValueResponse = await fetch (getKeyValueUrl);
+      playerCount = await keyValueResponse.json(); 
+    } catch (error) {
+    console.log(error);
+  }
+}
+// getPlayerCount();
 
 
+async function updatePlayerCount () {
+  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/f8l1xbm6/playerCount/${playerCount}`;
+  try {   
+  await fetch(updatePlayerCountUrl, {method: 'POST'})
+  } catch (error) {
+    console.log(error);
+  };
+};
 
-const appkeyNameArray = ["f8l1xbm6","yi3lt4dj","39t359no","lf3lcjbv","oqzjyd32","i60cj4d2","flrw85ff"];
-const nameArray = ['Jam', 'sunny', 'star','jeff','tom','Jenny', 'fate'];
+//TODO need a userInputName function to store user input name
+let userInputName='';
+//this playerCount should be the already added 1
+async function updateUserName () {
+  const newPlayerName = 'userName'+`${playerCount}`
+  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
+  try {   
+  await fetch(updatePlayerCountUrl, {method: 'POST'})
+  } catch (error) {
+    console.log(error);
+  };
+};
 
-const appKeyScoreArray = ["xux3jps6","sj67pazk","jyrnnxpy","sr2quwuy","ddq4ha5r","3u2pkdgx","xiukwrza"];
-const scoreArray = [4,1,5,2,6,7,9];
-
-
-// const nameScorePairAppKeyArray = [
-//   {"f8l1xbm6": 'tom', "xux3jps6": 6},
-//   {"yi3lt4dj": 'jerry',"sj67pazk": 7},
-//   {"39t359no": 'kate', "jyrnnxpy": 12},
-//   {"lf3lcjbv": '', "sr2quwuy": ''},
-//   {"oqzjyd32": '', "ddq4ha5r": ''},
-//   {"i60cj4d2": '', "3u2pkdgx": ''},
-//   {"flrw85ff": '', "xiukwrza": ''},
-// ]
-
-// console.log(nameScorePairAppKeyArray[0][0])
-// console.log(nameScorePairAppKeyArray[0][1])
-const storedNameArray =[];
-const storedScoreArray =[];
-
-// async function storeScore () {
-//   const appKeyUrl = 'https://keyvalue.immanuel.co/api/KeyVal/GetAppKey';
-//   try {
-//     for (let i=0; i<7; i++) {
-//     const response = await fetch(appKeyUrl);
-//     const appKeyData = await response.json();
-//     appkeyNameArray.push(appKeyData);
-//     }
-//   } catch(error) {
-//     console.log(error);
-//   }
-// }
-// storeScore();
+//TODO need to transfer score.textContent
+//this playerCount should be the already added 1
+async function updateUserScore () {
+  const newPlayerScore = 'userScore'+`${playerCount}`
+  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerScore}/${score.textContent}`;
+  try {   
+  await fetch(updatePlayerCountUrl, {method: 'POST'})
+  } catch (error) {
+    console.log(error);
+  };
+};
 
 
-
-// async function updateName () {
-//   const updateKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${appkeyNameArray}/${userName}/${nameValue}`;
-//   try {   
-//   await fetch(updateKeyValueUrl, {method: 'POST'})
-//   } catch (error) {
-//     console.log(error);
-//   };
-// };
-
-
-
-
-// async function getName () {
-//   try {
-//     for (let i=0; i<7;i++) {
-//       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/${appkeyNameArray[i]}/${userName}`;
-//       const keyValueResponse = await fetch (getKeyValueUrl);
-//       const keyValueResponseData = await keyValueResponse.json();
-//       storedNameArray.push(keyValueResponseData);
-//       console.log(keyValueResponseData);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// getScore();
-// console.log(storedScoreArray);
 

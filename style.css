@@ -170,7 +170,21 @@ button {
   position: absolute;
   top: 0;
 }
+.final-score {
+  font-size: 5rem;
+}
 
+.rank-item {
+  font-size: 2rem;
+  height: 5em;
+  margin-top: 1em;
+}
+
+.input-text {
+  margin-top: 3rem;
+  width: 10rem;
+  
+}
 #rank-container {
   margin-top: 40px;
   background-color: rgb(240, 171, 171);
@@ -181,9 +195,7 @@ button {
 
 
 
-.final-score {
-  font-size: 5rem;
-}
+
 #reset {
   margin-top: 3em;
 }
