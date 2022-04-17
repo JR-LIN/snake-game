@@ -12,13 +12,17 @@
     <header class="page-head" id="page-head">snake game</header>
     <div class="platform">
       <div class="rank-cotainer" id="rank-container">
-        <h2>rank</h2>
-        <button class="test" id="test">test</button>
-        <ol class = 'rank-list'>
-          <li class='rank-item' id="rank1"></li>
-          <li class='rank-item' id="rank2"></li>
-          <li class='rank-item' id="rank3"></li>
-        </ol>
+        <p class='top-8' id = 'top-8'> Top 8 </p>
+        <div class = 'rank-list'>
+          <p class='rank-item' id="rank1"></p>
+          <p class='rank-item' id="rank2"></p>
+          <p class='rank-item' id="rank3"></p>
+          <p class='rank-item' id="rank4"></p>
+          <p class='rank-item' id="rank5"></p>
+          <p class='rank-item' id="rank6"></p>
+          <p class='rank-item' id="rank7"></p>
+          <p class='rank-item' id="rank8"></p>
+        </div>
       </div>
       <div class="playground-container" id = 'playground-container'></div>
       <div class="info-container">
@@ -51,21 +55,39 @@
           </div>
         </form>     
       </div> 
-        
     </div>
   </div>
-  <div class="other-info" id="other-info" hidden>
+  <div class="middle-layer">
+    <header class="page-head">snake game</header>
+    <div class="platform">
+      <div class="loader" id="loader"></div>
+      <div class="playground-container"></div>
+      <div class="info-container">
+      </div>    
+  </div>
+  
+
+
+
+  </div>
+  <div class="gameover-layer" id="gameover-layer" hidden>
     <p id = 'game-over'>game over</p>
     <br/>
     <p class='final-score'>your score is <span id="your-score"></span></p>
     <br/>
-    <button class="reset" id="reset">reset</button>
-    <div class="input-container" id="input-container">
+    <div class="input-container" id="input-container" hidden>
       <form>
-        <input type="text" class="input-text" id="input-text" name="input-text">
+        <input type="text" class="input-text" id="input-text" name="input-text" maxlength="10" pattern="([A-z0-9\s]){2,}" title="max 10 length, letters/number only please">
         <br/>
         <label for="input-text">input your name</label>
       </form>
+      <div class="sub-skip-container">
+        <button class="skip" id="skip">skip</button>
+        <button class="submit" id="submit" type="submit">submit</button>
+      </div>
+    </div>
+    <div class="reset-container" id="reset-container">
+      <button class="reset" id="reset">reset</button> 
     </div>
   </div>
     <!-- script -->

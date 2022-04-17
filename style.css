@@ -3,6 +3,8 @@
 
 :root {
   --background-url: url(food/13.svg);
+  --rank-container-loading: rgba(240, 171, 171, 0.2);
+  --rank-container-afterLoad: rgba(240, 171, 171, 1);
 }
 
 * {
@@ -67,6 +69,7 @@ h1 {
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
   background-color: rgba(209, 216, 255, 1);
+  position: relative;
 }
 
 .outerCell {
@@ -163,43 +166,86 @@ button {
   text-transform: uppercase;
   font-family: 'VT323', monospace;
 }
-.other-info {
+.gameover-layer {
   background-color: rgba(27, 27, 27, 0.9);
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
+  z-index: 100;
 }
 .final-score {
   font-size: 5rem;
 }
-
+.top-8 {
+  font-size: 6.5rem;
+}
 .rank-item {
-  font-size: 2rem;
-  height: 5em;
-  margin-top: 1em;
+  font-size: 2.5rem;
+  margin-top: 0.6em;
+  text-align: left;
+  position: relative;
+  left: 1em;
+  letter-spacing: normal;
 }
 
+.input-container form label {
+  font-size: 3rem;
+}
 .input-text {
   margin-top: 3rem;
-  width: 10rem;
-  
+  width: 30rem;
+  height: 3rem;
+  font-size: 1.8rem;
+  border-radius: 0.5em;
+}
+
+.sub-skip-container {
+  display: flex;
+  row-gap: 1em;
+}
+
+.middle-layer {
+  position: absolute;
+  background-color: rgba(27, 27, 27, 0);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top:0;
+  z-index: -1;
+}
+.loader {
+  width: 450px;
+  height: 720px;
+  background-color: black;
+  border-radius: 2rem;
+  margin-top: 40px;
+  background: rgba(27, 27, 27, 0.9) url('loader20px.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
 }
 #rank-container {
   margin-top: 40px;
-  background-color: rgb(240, 171, 171);
+  background-color: var(--rank-container-afterLoad);
   width: 450px;
   height: 720px;
   border-radius: 2rem;
 }
 
-
-
-
-#reset {
-  margin-top: 3em;
+#submit {
+  margin-top:1.5em;
+  margin-left: 1em;
 }
-#other-info {
+
+#skip {
+  margin-top:1.5em;
+  margin-right: 1em;
+}
+#reset {
+  margin-top: 1.5em;
+}
+#gameover-layer {
   color: whitesmoke
 }
 

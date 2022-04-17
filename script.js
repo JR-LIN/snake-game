@@ -43,9 +43,11 @@ const slowbtn = document.getElementById('slow');
 const mediumbtn = document.getElementById('medium');
 const fastbtn = document.getElementById('fast');
 const score = document.getElementById('score-count');
-const gameOverLayer = document.getElementById('other-info');
+const gameOverLayer = document.getElementById('gameover-layer');
 const finalScore = document.getElementById('your-score');
 const resetBtn = document.getElementById('reset');
+const skipBtn = document.getElementById('skip');
+const resetContainer = document.getElementById('reset-container');
 score.textContent = '0';
 let scoreNum = 0;
 mediumbtn.checked = true;
@@ -148,8 +150,6 @@ function moveDirection (num) {
    
     //check if hit wall, the wall is the outer cells around the inner-playground
     if (outerPlaygroundIdNum.includes(targetCellIdNum)) {
-      // clearInterval(interval);
-      // alert('game over, Snake hits wall');
       window.removeEventListener('keydown', PressDownMove);
       window.removeEventListener('keyup', autoMove);
       gameover();
@@ -162,8 +162,6 @@ function moveDirection (num) {
       const snakeHitSelfArray = snake.slice(0, snake.length-1);
       //if this 'no-head' array contains any value that is equal to the targetCell which is now the snake's head (snake.length-1), it means snake's head is in its body.
       if(snakeHitSelfArray.indexOf(snake[snake.length-1]) !==-1) {
-        // clearInterval(interval);
-        // alert('game over, Snake eats itself');
         window.removeEventListener('keydown', PressDownMove);
         window.removeEventListener('keyup', autoMove);
         gameover();
@@ -326,6 +324,10 @@ function changeSpeed() {
 function gameover() {
   clearInterval(interval);
   finalScore.textContent = score.textContent;
+  if (parseInt(finalScore.textContent)>minScore) {
+    inputContainer.hidden = false;
+    resetContainer.hidden = true;
+  };
   gameOverLayer.hidden = false;
 }
 
@@ -339,57 +341,94 @@ mediumbtn.addEventListener('change', changeSpeed);
 fastbtn.addEventListener('change', changeSpeed);
 resetBtn.addEventListener('click', reload);
 
+// window.addEventListener('load', showRank);
+
 //record score for different users
 
-const testBtn = document.getElementById('test');
-testBtn.addEventListener('click', test);
-// const appkeyArray1 = ["f8l1xbm6","yi3lt4dj","39t359no","lf3lcjbv","oqzjyd32","i60cj4d2","flrw85ff"];
+const submitBtn = document.getElementById('submit');
+
+submitBtn.addEventListener('click', updateRecord);
+skipBtn.addEventListener('click', reload);
+// const appKeyArray1 = ["f8l1xbm6","yi3lt4dj","39t359no","lf3lcjbv","oqzjyd32","i60cj4d2","flrw85ff"];
 // const appKeyArray2 = ["xux3jps6","sj67pazk","jyrnnxpy","sr2quwuy","ddq4ha5r","3u2pkdgx","xiukwrza"];
 
 const rank1 = document.getElementById('rank1');
 const rank2 = document.getElementById('rank2');
 const rank3 = document.getElementById('rank3');
+const rank4 = document.getElementById('rank4');
+const rank5 = document.getElementById('rank5');
+const rank6 = document.getElementById('rank6');
+const rank7 = document.getElementById('rank7');
+const rank8 = document.getElementById('rank8');
 
 const storedNameArray = [];
 const storedScoreArray = [];
 
-function test () {
-  getPlayerInfoArray();
-  console.log(orderedPlayerInfo);
-  presentRankList();
-}
-
 //after get userName and userScore arrays, combine items into object and into one array
 const playerInfo = [];
 let orderedPlayerInfo = [];
-function getPlayerInfoArray () {
-  for (let i=0; i<storedNameArray.length;i++) {
-    const record = {};
-    record.userName = storedNameArray[i];
-    record.userScore = storedScoreArray[i];
-    playerInfo.push(record);
-  } 
-  orderedPlayerInfo = playerInfo.sort(function scoreHightToLow (a,b) {
-    return b.userScore - a.userScore;
-  })
+let minScore = 0;
+//get playerCount function
+async function getPlayerCount () {
+  try {
+      const getKeyValueUrl = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/f8l1xbm6/playerCount";
+      const keyValueResponse = await fetch (getKeyValueUrl);
+      const playerCount = await keyValueResponse.json();
+      return playerCount;
+    } catch (error) {
+    console.log(error);
+  }
 }
 
-function presentRankList() {
-  rank1.textContent = `${orderedPlayerInfo[0]['userName']}: ${orderedPlayerInfo[0]['userScore']}`;
-  rank2.textContent = `${orderedPlayerInfo[1]['userName']}: ${orderedPlayerInfo[1]['userScore']}`;
-  rank3.textContent = `${orderedPlayerInfo[2]['userName']}: ${orderedPlayerInfo[2]['userScore']}`;
-}
+//when loaded create a promise resolved with playerCount number assign the promise to playerCountPromise variable
+// let playerCountPromise = getPlayerCount();
+
+
+// async function getNameArray () {
+//   let totalPlayerNum = 0;
+//   try {
+//     await playerCountPromise.then((count) => {
+//       totalPlayerNum = parseInt(count)+1;
+//     })
+//     for (let i=0; i<totalPlayerNum;i++) {
+//       let playerName = 'userName'+`${i}`;
+//       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerName}`;
+//       const nameValueResponse = await fetch (getKeyValueUrl);
+//       const nameValueResponseData = await nameValueResponse.json();
+//       storedNameArray.push(nameValueResponseData);
+//     }   
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// async function getScoreArray () {
+//   let totalPlayerNum = 0;
+//   try {
+//     await playerCountPromise.then((count) => {
+//       totalPlayerNum = parseInt(count)+1;
+//     })
+//     for (let i=0; i<totalPlayerNum;i++) {
+//       let playerScore = 'userScore'+`${i}`;
+//       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerScore}`;
+//       const scoreValueResponse = await fetch (getKeyValueUrl);
+//       const scoreValueResponseData = await scoreValueResponse.json();
+//       storedScoreArray.push(scoreValueResponseData);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 async function getNameArray () {
   try {
-    for (let i=0; i<playerCount;i++) {
+    for (let i=0; i<8;i++) {
       let playerName = 'userName'+`${i}`;
       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerName}`;
       const nameValueResponse = await fetch (getKeyValueUrl);
       const nameValueResponseData = await nameValueResponse.json();
       storedNameArray.push(nameValueResponseData);
-      // console.log(storedNameArray);
-    }
+    }   
   } catch (error) {
     console.log(error);
   }
@@ -397,7 +436,7 @@ async function getNameArray () {
 
 async function getScoreArray () {
   try {
-    for (let i=0; i<playerCount;i++) {
+    for (let i=0; i<8;i++) {
       let playerScore = 'userScore'+`${i}`;
       const getKeyValueUrl = `https://keyvalue.immanuel.co/api/KeyVal/GetValue/yi3lt4dj/${playerScore}`;
       const scoreValueResponse = await fetch (getKeyValueUrl);
@@ -409,7 +448,6 @@ async function getScoreArray () {
   }
 }
 
-
 function getPlayerInfoArray () {
   for (let i=0; i<storedNameArray.length;i++) {
     const record = {};
@@ -417,70 +455,161 @@ function getPlayerInfoArray () {
     record.userScore = storedScoreArray[i];
     playerInfo.push(record);
   } 
-  orderedPlayerInfo = playerInfo.sort(function scoreHightToLow (a,b) {
+  orderedPlayerInfo = playerInfo.slice().sort(function scoreHightToLow (a,b) {
     return b.userScore - a.userScore;
   })
+  return parseInt(orderedPlayerInfo[orderedPlayerInfo.length-1].userScore);
+}
+
+function presentRankList() {
+  rank1.textContent = `#1 ${orderedPlayerInfo[0]['userName']}: ${orderedPlayerInfo[0]['userScore']}`;
+  rank2.textContent = `#2 ${orderedPlayerInfo[1]['userName']}: ${orderedPlayerInfo[1]['userScore']}`;
+  rank3.textContent = `#3 ${orderedPlayerInfo[2]['userName']}: ${orderedPlayerInfo[2]['userScore']}`;
+  rank4.textContent = `#4 ${orderedPlayerInfo[3]['userName']}: ${orderedPlayerInfo[3]['userScore']}`;
+  rank5.textContent = `#5 ${orderedPlayerInfo[4]['userName']}: ${orderedPlayerInfo[4]['userScore']}`;
+  rank6.textContent = `#6 ${orderedPlayerInfo[5]['userName']}: ${orderedPlayerInfo[5]['userScore']}`;
+  rank7.textContent = `#7 ${orderedPlayerInfo[6]['userName']}: ${orderedPlayerInfo[6]['userScore']}`;
+  rank8.textContent = `#8 ${orderedPlayerInfo[7]['userName']}: ${orderedPlayerInfo[7]['userScore']}`;
 }
 
 //onload, restart, reset call this to get player record from key-value api and show on the rank board
-async function showRank() {
+let originalAndOrderedArrayPromise={};
+
+async function generateRank() {
   try {
+    const originalAndOrderedArray=[];
     await getNameArray();
     await getScoreArray();
-    getPlayerInfoArray();
+    minScore = getPlayerInfoArray();
     presentRankList();
+    originalAndOrderedArray.push(playerInfo);
+    originalAndOrderedArray.push(orderedPlayerInfo);
+    return originalAndOrderedArray;
   } catch (error) {
     console.log(error);
   }
 }
-// showRank();
 
-let playerCount = 3;
-async function getPlayerCount () {
-  try {
-      const getKeyValueUrl = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/f8l1xbm6/playerCount";
-      const keyValueResponse = await fetch (getKeyValueUrl);
-      playerCount = await keyValueResponse.json(); 
-    } catch (error) {
-    console.log(error);
-  }
+
+// when load finishes call showRank
+function showRank() {
+  originalAndOrderedArrayPromise=generateRank();
 }
-// getPlayerCount();
 
 
+//to update player count after player input name then hit submit button
 async function updatePlayerCount () {
-  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/f8l1xbm6/playerCount/${playerCount}`;
-  try {   
+  let updatePlayerCountUrl='';
+  try {
+  await playerCountPromise.then((count)=> {
+    updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/f8l1xbm6/playerCount/${parseInt(count)+1}`;
+  })  
   await fetch(updatePlayerCountUrl, {method: 'POST'})
   } catch (error) {
     console.log(error);
   };
 };
 
-//TODO need a userInputName function to store user input name
-let userInputName='';
-//this playerCount should be the already added 1
+const inputText = document.getElementById('input-text');
+
+
+// async function updateUserName () {
+//   let userInputName = inputText.value;
+//   let updatePlayerCountUrl = '';
+//   try {
+//     await playerCountPromise.then((count)=> {
+//       const newPlayerName = 'userName'+`${parseInt(count)+1}`
+//       updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
+//     })  
+//     console.log(updatePlayerCountUrl);
+//     await fetch(updatePlayerCountUrl, {method: 'POST'})
+//   } catch (error) {
+//     console.log(error);
+//   };
+// };
+
+
+
+// async function updateUserScore () {
+//   let updatedScoreUrl = '';
+//   try {
+//       await playerCountPromise.then((count)=> {
+//       const newPlayerScore = 'userScore'+`${parseInt(count)+1}`
+//       updatedScoreUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerScore}/${score.textContent}`;
+//     })
+//     console.log(updatedScoreUrl);
+//     await fetch(updatedScoreUrl, {method: 'POST'})
+//   } catch (error) {
+//     console.log(error);
+//   };
+// };
+
+
+
+//in originalAndOrderedArrayPromise get the two arrays orderedPlayerinfo to find the index of the last item in the playerinfo array, then let the value to be updated on that key-value
+
+
 async function updateUserName () {
-  const newPlayerName = 'userName'+`${playerCount}`
-  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
-  try {   
-  await fetch(updatePlayerCountUrl, {method: 'POST'})
-  } catch (error) {
-    console.log(error);
+  let userInputName = inputText.value;
+  let updatePlayerCountUrl = '';
+  let updateIndex = 0;
+  try {
+    await originalAndOrderedArrayPromise.then((array)=> {
+          let minScoreObj = array[1][array[1].length-1];
+          updateIndex = array[0].findIndex((element)=> {
+            //TODO need to return the expression
+            return ((element.userName === minScoreObj.userName) && (element.userScore === minScoreObj.userScore));
+        })
+      })
+      const newPlayerName = 'userName'+`${parseInt(updateIndex)}`;
+      updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
+      await fetch(updatePlayerCountUrl, {method: 'POST'})
+  }   catch (error) {
+      console.log(error);
   };
 };
 
-//TODO need to transfer score.textContent
-//this playerCount should be the already added 1
 async function updateUserScore () {
-  const newPlayerScore = 'userScore'+`${playerCount}`
-  const updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerScore}/${score.textContent}`;
-  try {   
-  await fetch(updatePlayerCountUrl, {method: 'POST'})
+  let updatedScoreUrl = '';
+  let updateIndex = 0;
+  try {
+    await originalAndOrderedArrayPromise.then((array)=> {
+        let minScoreObj = array[1][array[1].length-1];
+        updateIndex = array[0].findIndex((element)=> {
+        return ((element.userName === minScoreObj.userName) && (element.userScore === minScoreObj.userScore));
+      })
+    })
+    const newPlayerScore = 'userScore'+`${parseInt(updateIndex)}`
+    updatedScoreUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerScore}/${score.textContent}`;
+    await fetch(updatedScoreUrl, {method: 'POST'})
   } catch (error) {
     console.log(error);
   };
 };
 
+const inputContainer = document.getElementById('input-container');
 
+function inputValidation () {
+  const text = inputText.value;
+  const validInfo = /^[A-Za-z\s]*$/;
+  if(!text.match(validInfo) || !text.length > 0) {
+    alert('please only enter letters or space')
+  }
+}
+
+function updateRecord() {
+  const text = inputText.value;
+  const validInfo = /^[A-Za-z\s]*$/;
+  if(!text.match(validInfo)) {
+    alert('please only enter letters or space')
+  } 
+  else if (!text.length > 0) {
+    alert('please enter a name')
+  }
+  else {
+  updateUserName();
+  updateUserScore();
+  reload();
+  };
+};
 
