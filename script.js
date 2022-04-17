@@ -48,6 +48,7 @@ const finalScore = document.getElementById('your-score');
 const resetBtn = document.getElementById('reset');
 const skipBtn = document.getElementById('skip');
 const resetContainer = document.getElementById('reset-container');
+const rankContainer = document.getElementById('rank-container');
 score.textContent = '0';
 let scoreNum = 0;
 mediumbtn.checked = true;
@@ -64,6 +65,7 @@ const snake = [];
 //   snake[snake.length-1].classList.add('snake-head-down');
 // }
 // createLongSnake();
+
 function createSnake() {
   let cell = document.getElementById('211');
   snake.push(cell);
@@ -341,7 +343,8 @@ mediumbtn.addEventListener('change', changeSpeed);
 fastbtn.addEventListener('change', changeSpeed);
 resetBtn.addEventListener('click', reload);
 
-// window.addEventListener('load', showRank);
+//TODO uncomment
+window.addEventListener('load', showRank);
 
 //record score for different users
 
@@ -482,6 +485,7 @@ async function generateRank() {
     await getScoreArray();
     minScore = getPlayerInfoArray();
     presentRankList();
+    loadComplete();
     originalAndOrderedArray.push(playerInfo);
     originalAndOrderedArray.push(orderedPlayerInfo);
     return originalAndOrderedArray;
@@ -490,10 +494,15 @@ async function generateRank() {
   }
 }
 
+// loading()
+const loadDone = `rgba(240, 171, 171, 1)`;
+function loadComplete () {
+  rankContainer.style.setProperty('--rank-container-loading', loadDone);
+}
 
 // when load finishes call showRank
 function showRank() {
-  originalAndOrderedArrayPromise=generateRank();
+  originalAndOrderedArrayPromise = generateRank();
 }
 
 

@@ -11,7 +11,7 @@
   <div class="main" id="main">
     <header class="page-head" id="page-head">snake game</header>
     <div class="platform">
-      <div class="rank-cotainer" id="rank-container">
+      <div class="rank-container" id="rank-container">
         <p class='top-8' id = 'top-8'> Top 8 </p>
         <div class = 'rank-list'>
           <p class='rank-item' id="rank1"></p>
@@ -57,19 +57,16 @@
       </div> 
     </div>
   </div>
-  <div class="middle-layer">
+
+  <div class="inner-layer">
     <header class="page-head">snake game</header>
     <div class="platform">
       <div class="loader" id="loader"></div>
       <div class="playground-container"></div>
-      <div class="info-container">
-      </div>    
+      <div class="info-container"></div>    
+    </div>
   </div>
-  
 
-
-
-  </div>
   <div class="gameover-layer" id="gameover-layer" hidden>
     <p id = 'game-over'>game over</p>
     <br/>
@@ -77,7 +74,7 @@
     <br/>
     <div class="input-container" id="input-container" hidden>
       <form>
-        <input type="text" class="input-text" id="input-text" name="input-text" maxlength="10" pattern="([A-z0-9\s]){2,}" title="max 10 length, letters/number only please">
+        <input type="text" class="input-text" id="input-text" name="input-text" maxlength="10" pattern="([A-z0-9\s]){2,}" title="max 13 length, letters/number only please">
         <br/>
         <label for="input-text">input your name</label>
       </form>
