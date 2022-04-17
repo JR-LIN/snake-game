@@ -606,7 +606,7 @@ function inputValidation () {
   }
 }
 
-function updateRecord() {
+async function updateRecord() {
   const text = inputText.value;
   const validInfo = /^[A-Za-z\s]*$/;
   if(!text.match(validInfo)) {
@@ -616,9 +616,13 @@ function updateRecord() {
     alert('please enter a name')
   }
   else {
-  updateUserName();
-  updateUserScore();
-  reload();
+  try {
+    await updateUserName();
+    await updateUserScore();
+    reload();
+    } catch (error) {
+    console.log(error);
+    };
   };
 };
 
