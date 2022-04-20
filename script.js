@@ -371,7 +371,7 @@ const storedScoreArray = [];
 const playerInfo = [];
 let orderedPlayerInfo = [];
 let minScore = 0;
-//get playerCount function
+//get playerCount function for future use
 async function getPlayerCount () {
   try {
       const getKeyValueUrl = "https://keyvalue.immanuel.co/api/KeyVal/GetValue/f8l1xbm6/playerCount";
@@ -560,7 +560,7 @@ const inputText = document.getElementById('input-text');
 
 async function updateUserName () {
   let userInputName = inputText.value;
-  let updatePlayerCountUrl = '';
+  let updateUserNameUrl = '';
   let updateIndex = 0;
   try {
     await originalAndOrderedArrayPromise.then((array)=> {
@@ -571,8 +571,8 @@ async function updateUserName () {
         })
       })
       const newPlayerName = 'userName'+`${parseInt(updateIndex)}`;
-      updatePlayerCountUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
-      await fetch(updatePlayerCountUrl, {method: 'POST'})
+      updateUserNameUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/${newPlayerName}/${userInputName}`;
+      await fetch(updateUserNameUrl, {method: 'POST'})
   }   catch (error) {
       console.log(error);
   };
@@ -598,14 +598,6 @@ async function updateUserScore () {
 
 const inputContainer = document.getElementById('input-container');
 
-function inputValidation () {
-  const text = inputText.value;
-  const validInfo = /^[A-Za-z\s]*$/;
-  if(!text.match(validInfo) || !text.length > 0) {
-    alert('please only enter letters or space')
-  }
-}
-
 async function updateRecord() {
   const text = inputText.value;
   const validInfo = /^[A-Za-z\s]*$/;
@@ -626,3 +618,25 @@ async function updateRecord() {
   };
 };
 
+
+//this is to set the 8th as 1 score
+window.addEventListener('keydown', set8th );
+
+const keyCombo = [];
+
+async function set8th (event) {
+  try {
+    let keyStroke = event.key.toLowerCase();
+    if (keyStroke === 'b') {
+      keyCombo.push(keyStroke);
+    }
+    if (keyCombo[0]==='b'&& keyCombo[1] === 'b' && keyCombo[2] ==='b') {
+      const updateUserNameUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/userName7/test`;
+      await fetch(updateUserNameUrl, {method: 'POST'})
+      const updatedScoreUrl = `https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/yi3lt4dj/userScore7/1`;
+      await fetch(updatedScoreUrl, {method: 'POST'})
+    }
+    }catch(error) {
+      console.log(error);
+    };
+};
