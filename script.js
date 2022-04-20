@@ -148,7 +148,7 @@ function moveDirection (num) {
     const targetCellIdNum = (currentHeadIdNum + num);
     //to convert targetCell id number to string
     const targetCellIdStr = targetCellIdNum.toString();
-    targetCell = document.getElementById(targetCellIdStr);
+    const targetCell = document.getElementById(targetCellIdStr);
    
     //check if hit wall, the wall is the outer cells around the inner-playground
     if (outerPlaygroundIdNum.includes(targetCellIdNum)) {
