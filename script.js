@@ -611,7 +611,7 @@ async function updateRecord() {
   try {
     await updateUserName();
     await updateUserScore();
-    /*reload();*/
+    reload();
     } catch (error) {
     console.log(error);
     };
