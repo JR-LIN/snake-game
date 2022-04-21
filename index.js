@@ -26,8 +26,6 @@ const submitBtn = document.getElementById('submit');
 
 mediumbtn.checked = true;
 
-
-
 //TODO why interval has to be global
 let interval = null;
 
@@ -258,8 +256,6 @@ slowbtn.addEventListener('change',changeSpeed);
 mediumbtn.addEventListener('change', changeSpeed);
 fastbtn.addEventListener('change', changeSpeed);
 resetBtn.addEventListener('click', reload);
-
-//TODO uncomment
 
 
 skipBtn.addEventListener('click', reload);
