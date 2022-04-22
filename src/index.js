@@ -1,6 +1,11 @@
 import {getRandomCell, createSnake, setPlayground, getOuterPlaygroundIdNum, widthHeight, outerPlaygroundIdNum, snake, randomCell, scoreCount, score} from './setUp.js';
 import{updateRecord, minScore} from './rankApi.js';
-import './style.css'
+import './style.css';
+function importAll(r) {
+  r.keys().forEach(r);
+}
+
+importAll(require.context('./assets/', false, /\.svg$/));
 
 //load playground
 

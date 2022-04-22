@@ -9,6 +9,7 @@ const snake = [];
 let randomCell = null;
 let scoreNum = 0;
 
+
 function getOuterPlaygroundIdNum () {
   for (let i=1; i<=widthHeight; i++) {
     outerPlaygroundIdNum.push(i);
@@ -66,7 +67,7 @@ function getRandomCell() {
   randCell.classList.add('randomCell');
   //there are 125 svg icons in the food folder random select one as snake's target food
   const randFoodId = Math.floor(Math.random()*125)
-  const randFoodUrl = `url(food/${randFoodId}.svg)`;
+  const randFoodUrl = `url(${randFoodId}.svg)`;
   randCell.style.setProperty('--background-url', randFoodUrl);
   randomCell = randCell;
 }
