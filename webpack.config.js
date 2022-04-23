@@ -1,8 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const request = require('request');
 
-// request.context('./assets', false, /^\.\/.*$/);
+
 module.exports = {
   mode: 'development',
   entry: {

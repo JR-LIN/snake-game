@@ -1,11 +1,11 @@
 import {getRandomCell, createSnake, setPlayground, getOuterPlaygroundIdNum, widthHeight, outerPlaygroundIdNum, snake, randomCell, scoreCount, score} from './setUp.js';
 import{updateRecord, minScore} from './rankApi.js';
 import './style.css';
-function importAll(r) {
-  r.keys().forEach(r);
-}
+// create own context(path) for webpack to search and parse while building the bundle
+require.context('./assets/', false, /\.svg$/);
 
-importAll(require.context('./assets/', false, /\.svg$/));
+// console.log(required.keys());
+
 
 //load playground
 

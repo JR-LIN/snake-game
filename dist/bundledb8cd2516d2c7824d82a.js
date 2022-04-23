@@ -1084,7 +1084,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "snake": () => (/* binding */ snake),
 /* harmony export */   "widthHeight": () => (/* binding */ widthHeight)
 /* harmony export */ });
-
 const playground = document.getElementById('playground-container');
 const score = document.getElementById('score-count');
 score.textContent = '0';
@@ -1095,12 +1094,6 @@ const innerPlaygroundIdNum = [];
 const snake = [];
 let randomCell = null;
 let scoreNum = 0;
-
-// const required = require.context('./assets');
-// let imgs = [];
-// required.key().forEach((key)=> {
-//   imgs.push(key);
-// })
 
 
 function getOuterPlaygroundIdNum () {
@@ -2806,11 +2799,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function importAll(r) {
-  r.keys().forEach(r);
-}
+// create own context(path) for webpack to search and parse while building the bundle
+__webpack_require__("./src/assets sync \\.svg$");
 
-importAll(__webpack_require__("./src/assets sync \\.svg$"));
+// console.log(required.keys());
+
 
 //load playground
 
@@ -3096,4 +3089,4 @@ async function set8th (event) {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundleaa9b0b6ffbc7e63701cb.js.map
+//# sourceMappingURL=bundledb8cd2516d2c7824d82a.js.map
